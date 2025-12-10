@@ -44,7 +44,7 @@ This file focuses ONLY on debugging common issues:
 - Nginx / DNS / Cloudflare problems
 - Deploy issues (bad release, missing secrets, uploads deleted)
 
-# ================================================================================ 0. QUICK DIAG CHECKLIST
+# QUICK DIAG CHECKLIST
 
 When something is broken, run these first on the server (as deploy user):
 
@@ -81,9 +81,8 @@ curl https://backend-staging.ratsense.com --insecure -I
 curl https://staging.ratsense.com --insecure -I
 ```
 
-================================================================================
 
-1. # 502 BAD GATEWAY (BACKEND)
+# 502 BAD GATEWAY (BACKEND)
 
 SYMPTOM:
 
@@ -192,7 +191,7 @@ Then redeploy:
 sudo /opt/deploy/deploy.sh
 ```
 
-# ================================================================================ 2. FRONTEND 404 / 403 / OLD BUILD
+# FRONTEND 404 / 403 / OLD BUILD
 
 A. 404 ON ROUTES LIKE /login, /user, /admin
 
@@ -285,7 +284,7 @@ sudo /opt/deploy/deploy.sh
    - Hard reload (Ctrl+Shift+R)
    - Cloudflare → Caching → Purge Everything
 
-# ================================================================================ 3. DNS / CLOUDFLARE ISSUES
+# DNS / CLOUDFLARE ISSUES
 
 A. CHECK DNS
 
@@ -335,7 +334,7 @@ In Cloudflare DNS:
 
 Keep record of working setup and revert to that.
 
-# ================================================================================ 4. DEPLOYMENT SCRIPT ISSUES
+# DEPLOYMENT SCRIPT ISSUES
 
 SCRIPT PATH:
 /opt/deploy/deploy.sh
@@ -396,7 +395,7 @@ Then rerun:
 sudo /opt/deploy/deploy.sh
 ```
 
-# ================================================================================ 5. UPLOADS FOLDER LOST AFTER DEPLOY
+# UPLOADS FOLDER LOST AFTER DEPLOY
 
 EXPECTED DESIGN:
 
@@ -426,7 +425,7 @@ mkdir -p "$BACK_ROOT/persistent/uploads"
 ln -s "$BACK_ROOT/persistent/uploads" "$BACK_RELEASE/uploads"
 ```
 
-# ================================================================================ 6. ROLLBACK TO PREVIOUS RELEASE
+# ROLLBACK TO PREVIOUS RELEASE
 
 If a new deploy breaks something:
 
@@ -468,7 +467,7 @@ curl https://backend-staging.ratsense.com --insecure -I
 curl https://staging.ratsense.com --insecure -I
 ```
 
-# ================================================================================ 7. QUICK COMMANDS REFERENCE
+# QUICK COMMANDS REFERENCE
 
 # Nginx
 
@@ -505,31 +504,3 @@ curl http://localhost:8000/ -I
 curl https://backend-staging.ratsense.com --insecure -I
 curl https://staging.ratsense.com --insecure -I
 ```
-
-================================================================================
-END OF DEBUG GUIDE
-================================================================================
-
-echo "=== [8] Cleaning old releases ==="
-
-# Number of releases to keep
-
-KEEP=5
-
-# FRONTEND CLEANUP
-
-cd "$FRONT_ROOT/releases"
-TOTAL_FRONT=$(ls -1 | wc -l)
-if [ "$TOTAL_FRONT" -gt "$KEEP" ]; then
-ls -1t | tail -n +$((KEEP+1)) | xargs rm -rf
-echo "Frontend: Removed old releases, kept latest $KEEP"
-fi
-
-# BACKEND CLEANUP
-
-cd "$BACK_ROOT/releases"
-TOTAL_BACK=$(ls -1 | wc -l)
-if [ "$TOTAL_BACK" -gt "$KEEP" ]; then
-ls -1t | tail -n +$((KEEP+1)) | xargs rm -rf
-echo "Backend: Removed old releases, kept latest $KEEP"
-fi
