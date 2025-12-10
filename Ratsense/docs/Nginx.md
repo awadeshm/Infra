@@ -1,17 +1,25 @@
 # Install Nginx
 
+```bash
 sudo apt update
 sudo apt install nginx -y
+sudo systemctl enable nginx
+sudo systemctl start nginx
+```
 
 # Check Status
 
+```bash
 systemctl status nginx
+```
 
 # Allow Nginx in firewall
 
+```bash
 sudo ufw allow 'Nginx Full'
 sudo ufw allow OpenSSH
 sudo ufw enable
+```
 
 [Setup SSL Files](SSL.md)
 
@@ -25,5 +33,7 @@ sudo ufw enable
 
 # Test and reload:
 
+```bash
 sudo nginx -t
 sudo systemctl reload nginx
+```

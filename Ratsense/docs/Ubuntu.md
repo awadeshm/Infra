@@ -10,20 +10,28 @@
 
 # Update Server & Install Essentials
 
+```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y git unzip build-essential
+```
 
 # Optional but recommended
 
+```bash
 sudo timedatectl set-timezone Asia/Kolkata
+```
 
 # Setup Node and dependencies
 
+```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt install -y nodejs
 sudo npm install -g pm2
+```
 
 # Auto-start PM2 on boot
 
+```bash
 pm2 startup systemd
 sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u deploy --hp /home/deploy
+```
