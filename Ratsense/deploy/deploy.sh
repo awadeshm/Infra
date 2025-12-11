@@ -97,17 +97,23 @@ ln -s "$BACK_ROOT/persistent/uploads" "$BACK_RELEASE/uploads"
 # point backend current to new release
 ln -sfn "$BACK_RELEASE" "$BACK_ROOT/current"
 
-
 ##############################
-# 7. RESTART BACKEND (PM2)
+# 7. PM2 BACKEND + CRONJOBS
 ##############################
-echo "=== [7] Restarting backend with PM2 ==="
+echo "=== [7] Reloading PM2 (backend + cronjobs) ==="
 cd "$BACK_ROOT/current"
 
-if pm2 describe backend >/dev/null 2>&1; then
-  pm2 restart backend
+# Determine ecosystem file
+if [[ "$BRANCH" == "staging" ]]; then
+  ECO="ecosystem.staging.config.js"
 else
-  pm2 start server.js --name backend
+  ECO="ecosystem.prod.config.js"
+fi
+
+if pm2 list | grep -q backend; then
+  pm2 reload "$ECO"
+else
+  pm2 start "$ECO"
 fi
 
 pm2 save

@@ -11,3 +11,12 @@ pm2 status
 sudo ss -tlnp | grep node
 sudo nginx -t
 ```
+
+# Verify Upload folder created
+
+```bash
+ls -l /var/www/backend/uploads
+```
+
+**Expected**
+uploads -> /var/www/backend/persistent/uploads

@@ -22,12 +22,6 @@ mkdir -p ~/.ssh
 chmod 700 ~/.ssh
 ```
 
-**Fix for Uploads**
-
-```bash
-sudo ln -s /var/www/backend/persistent/uploads /var/www/backend/uploads
-```
-
 # Deploy User permissions to run deploy.sh
 
 **(As Ubuntu)**
@@ -66,6 +60,12 @@ sudo mkdir -p /var/www/backend/persistent/uploads
 
 ```bash
 sudo chown -R deploy:deploy /opt/app /opt/env /opt/deploy /opt/secrets /var/www
+```
+
+**Fix for Uploads**
+
+```bash
+sudo ln -s /var/www/backend/persistent/uploads /var/www/backend/uploads
 ```
 
 # Setup Github
