@@ -29,9 +29,40 @@ sudo apt install -y nodejs
 sudo npm install -g pm2
 ```
 
+**Older version of node**
+
+```bash
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo npm install -g pm2
+```
+
+# Setup Deploy user
+
+```bash
+sudo adduser deploy
+```
+
+**Deploy user to the groups that can manage PM2 & Nginx:**
+
+```bash
+sudo usermod -aG sudo deploy
+sudo usermod -aG www-data deploy
+```
+
 # Auto-start PM2 on boot
 
 ```bash
-pm2 startup systemd
+pm2 startup systemd -u deploy --hp /home/deploy
 sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u deploy --hp /home/deploy
+```
+
+# Add SWAP
+
+```bash
+sudo fallocate -l 2G /swapfile
+sudo chmod 600 /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+echo "/swapfile swap swap defaults 0 0" | sudo tee -a /etc/fstab
 ```

@@ -1,16 +1,3 @@
-# Setup Deploy user
-
-```bash
-sudo adduser deploy
-```
-
-**Deploy user to the groups that can manage PM2 & Nginx:**
-
-```bash
-sudo usermod -aG sudo deploy
-sudo usermod -aG www-data deploy
-```
-
 **Set up SSH for deploy user**
 
 ```bash
