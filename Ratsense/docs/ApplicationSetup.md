@@ -112,6 +112,11 @@ sudo chmod -R 700 /opt/env
 sudo chmod -R 700 /opt/secrets/backend
 ```
 
+```bash
+sudo chown deploy:deploy /opt/env/*.env
+sudo chmod 600 /opt/env/*.env
+```
+
 # Copy Uploads folder
 
 ```bash
